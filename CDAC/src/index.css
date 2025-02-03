@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* Apply to the entire document */
+html, body {
+  height: 100%; /* Ensure the full height is taken up */
+  margin: 0;    /* Remove default margins */
+  padding: 0;   /* Remove default padding */
+}
+
+body {
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
