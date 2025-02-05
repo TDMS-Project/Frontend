@@ -1,15 +1,22 @@
-import React from 'react';
+import React from "react";
 
-const CustomerCart = ({ itemName }) => {
-  const handleAddToCart = () => {
-    alert(`${itemName} added to cart!`);
-  };
-
+const CustomerCart = ({ cartItems }) => {
   return (
-    <button className="btn btn-primary" onClick={handleAddToCart}>
-      Add to Cart
-    </button>
+    <div>
+      <h2>Your Cart</h2>
+      {cartItems.length === 0 ? (
+        <p>Your cart is empty</p>
+      ) : (
+        <ul>
+          {cartItems.map((item) => (
+            <li key={item.menuItemID}>
+              {item.name} - ${item.price} x {item.quantity}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
-export default CustomerCart;
+export default CustomerCart;

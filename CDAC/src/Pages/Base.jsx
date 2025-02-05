@@ -28,7 +28,7 @@ function Base() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link  text-white" href="/AdminHomePage" >
+                <a className="nav-link  text-white" href="/VendorsHomePage" >
                   About Us
                 </a>
               </li>

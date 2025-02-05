@@ -1,38 +1,59 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // For navigation
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-const sampleVendors = [
-  { id: 1, name: 'Tasty Bites', address: '123 Main St, NY' },
-  { id: 2, name: 'Foodie Haven', address: '456 Elm St, CA' },
-  { id: 3, name: 'Gourmet Grill', address: '789 Oak St, TX' },
-];
+const VendorsList = () => {
+  const [vendors, setVendors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-const VendorsList = ({ vendors = sampleVendors }) => {
+  // Fetch vendors from backend
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/customers/vendorList/4") // Replace with actual backend API
+      .then((response) => {
+        setVendors(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching vendors:", error);
+        setError("Failed to load vendors.");
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className="container mt-4">
       <h1 className="text-center mb-4">Vendor List</h1>
 
-      {vendors.length === 0 ? (
+      {loading ? (
+        <p className="text-center">Loading vendors...</p>
+      ) : error ? (
+        <p className="text-center text-danger">{error}</p>
+      ) : vendors.length === 0 ? (
         <p className="text-center">No vendors available.</p>
       ) : (
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Name</th>
+              <th>Sr. No</th>
+              <th>Vendor Name</th>
               <th>Address</th>
               <th>Menu</th>
             </tr>
           </thead>
           <tbody>
-            {vendors.map((vendor) => (
-              <tr key={vendor.id}>
-                <td>{vendor.id}</td>
-                <td>{vendor.name}</td>
-                <td>{vendor.address}</td>
+            {vendors.map((vendor, index) => (
+              <tr key={vendor.userID}>
+                <td>{index + 1}</td>
+                <td>{vendor.businessName}</td>
+                <td>{vendor.businessAddress}</td>
                 <td>
-                  {/* ✅ "View Menu" button for each vendor */}
-                  <Link to={`/menu/${vendor.id}`} className="btn btn-primary">
+                  {/* Button visible for all vendors */}
+                  <Link 
+                    to={`/menu/${vendor.userID}`} 
+                    className="btn btn-primary"
+                  >
                     View Menu
                   </Link>
                 </td>

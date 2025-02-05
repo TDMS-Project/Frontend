@@ -1,20 +1,35 @@
-
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const CustomerFeedback = () => {
   // State variables for feedback form
-  const [rating, setRating] = useState(1); // Default rating is 1
+  const [email, setEmail] = useState('');
+  const [rating, setRating] = useState(1);
   const [comment, setComment] = useState('');
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // You can handle the feedback submission here (e.g., save it to a database or send to an API)
-    console.log('Feedback Submitted:', { rating, comment });
+    const feedbackData = {
+      email,
+      rating: parseInt(rating, 10),
+      message:comment,
+    };
 
-    // Set state to show confirmation message after submission
-    setFeedbackSubmitted(true);
+    try {
+      // Replace with your actual API endpoint
+      const response = await axios.post('http://localhost:8080/api/customers/feedBack', feedbackData);
+      
+      if (response.status === 200 || response.status === 201) {
+        setFeedbackSubmitted(true);
+      } else {
+        alert('Failed to submit feedback. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      alert('An error occurred while submitting feedback.');
+    }
   };
 
   return (
@@ -26,6 +41,22 @@ const CustomerFeedback = () => {
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
+          {/* Email Field */}
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Rating Dropdown */}
           <div className="mb-3">
             <label htmlFor="rating" className="form-label">
               Rating (1 to 5)
@@ -35,6 +66,7 @@ const CustomerFeedback = () => {
               className="form-select"
               value={rating}
               onChange={(e) => setRating(e.target.value)}
+              required
             >
               <option value="1">1 - Poor</option>
               <option value="2">2 - Fair</option>
@@ -44,6 +76,7 @@ const CustomerFeedback = () => {
             </select>
           </div>
 
+          {/* Comment Field */}
           <div className="mb-3">
             <label htmlFor="comment" className="form-label">
               Comment
@@ -54,6 +87,7 @@ const CustomerFeedback = () => {
               rows="4"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
+              required
             ></textarea>
           </div>
 
@@ -66,4 +100,4 @@ const CustomerFeedback = () => {
   );
 };
 
-export default CustomerFeedback;
+export default CustomerFeedback;

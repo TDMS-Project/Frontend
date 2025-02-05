@@ -27,7 +27,7 @@ export function SignIn() {
       if (userRole === "Admin") {
         history("/AdminHomePage");
       } else if (userRole === "Vendor") {
-        history("/vendor");
+        history("/VendorsHomePage");
       } else if (userRole === "Delivery") {
         history("/delivery");
       } else if (userRole === "Customer") {

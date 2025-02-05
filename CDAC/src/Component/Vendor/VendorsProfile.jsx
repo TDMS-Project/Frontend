@@ -19,7 +19,7 @@ const UpdateProfile = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/admin")
+      .get("http://localhost:8080/api/vendors/8")
       .then((response) => {
         setUser(response.data);
       })
@@ -39,7 +39,7 @@ const UpdateProfile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put("http://localhost:8080/api/admin/update-profile", user)
+      .put("http://localhost:8080/api/vendors/update-profile/8", user)
       .then(() => {
         alert("Profile updated successfully");
       })

@@ -1,42 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const CustomerOrderHistory = () => {
-  // Sample order data
+  // State to store orders data
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
+  // Function to convert the orderDate array to a human-readable date
+  const convertToDate = (dateArray) => {
+    // The date array is of the form: [year, month, day, hour, minute, second, nano]
+    const [year, month, day, hour, minute, second] = dateArray;
+    const date = new Date(year, month - 1, day, hour, minute, second); // month is 0-based in JavaScript Date
+    return date.toLocaleString(); // Returns the date and time in a readable format
+  };
+
+  // Fetch the order history data from the API
   useEffect(() => {
-    // Simulate fetching order history data
-    const fetchedOrders = [
-      {
-        id: 1,
-        items: ['Pizza', 'Burger'],
-        orderDate: '2025-01-15',
-        status: 'Delivered',
-      },
-      {
-        id: 2,
-        items: ['Pasta', 'Ice Cream'],
-        orderDate: '2025-01-18',
-        status: 'In Progress',
-      },
-      {
-        id: 3,
-        items: ['Beverage'],
-        orderDate: '2025-01-20',
-        status: 'Delivered',
-      },
-    ];
-
-    // Simulating a delay to mimic fetching data
-    setTimeout(() => {
-      setOrders(fetchedOrders);
-    }, 1000);
+    const userId = 3; // Replace with the actual customer ID dynamically (e.g., from the logged-in user)
+    axios
+      .get(`http://localhost:8080/api/customers/orders/${userId}`) // Replace with your actual API URL
+      .then((response) => {
+        setOrders(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error fetching order history:', err);
+        setError('Failed to load orders.');
+        setLoading(false);
+      });
   }, []);
 
   return (
     <div className="container mt-4">
       <h2 className="text-center mb-4">Order History</h2>
-      {orders.length > 0 ? (
+      {loading ? (
+        <p className="text-center">Loading...</p>
+      ) : error ? (
+        <p className="text-center text-danger">{error}</p>
+      ) : orders.length > 0 ? (
         <table className="table">
           <thead>
             <tr>
@@ -48,11 +50,11 @@ const CustomerOrderHistory = () => {
           </thead>
           <tbody>
             {orders.map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.items.join(', ')}</td>
-                <td>{order.orderDate}</td>
-                <td>{order.status}</td>
+              <tr key={order.orderID}>
+                <td>{order.orderID}</td>
+                <td>{order.orderItems.map(item => item.menuItem ? item.menuItem.name : 'N/A').join(', ')}</td>
+                <td>{convertToDate(order.orderDate)}</td>
+                <td>{order.orderStatus}</td>
               </tr>
             ))}
           </tbody>
@@ -64,4 +66,4 @@ const CustomerOrderHistory = () => {
   );
 };
 
-export default CustomerOrderHistory;
+export default CustomerOrderHistory;
