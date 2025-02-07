@@ -7,7 +7,7 @@ export function SignIn() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const history = useNavigate();
-
+        
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -28,8 +28,8 @@ export function SignIn() {
         history("/AdminHomePage");
       } else if (userRole === "Vendor") {
         history("/VendorsHomePage");
-      } else if (userRole === "Delivery") {
-        history("/delivery");
+      } else if (userRole === "DeliveryPerson") {
+        history("/DeliveryPersonHomePage");
       } else if (userRole === "Customer") {
         history("/CustomerHomePage");
       } else {

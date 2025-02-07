@@ -21,6 +21,8 @@ import CustomerFeedback from "./Component/Customer/CustomerFeedback";
 import MenuPage2 from "./Component/Customer/MenuPage2";
 import VendorsHomePage from "./Component/Vendor/VendorsHomePage"
 import VendorProfile from "./Component/Vendor/VendorsProfile"
+import DeliveryPersonHomePage from "./Component/DeliveryPerson/DeliveryPersonHomePage";
+import DeliveryPersonProfile from "./Component/DeliveryPerson/DeliveryPersonProfile";
 
 function App() {
   return (
@@ -48,10 +50,13 @@ function App() {
           <Route path="/menu/:vendorId" element={<MenuPage2 />} />
           <Route path="/VendorsHomePage" element={<VendorsHomePage/>}/>
           <Route path="/VendorsProfile" element={<VendorProfile/>}/>
+          <Route path="/DeliveryPersonHomePage" element={<DeliveryPersonHomePage/>}/>
+          <Route path="/DeliveryPersonProfile" element={<DeliveryPersonProfile/>}/>
         </Routes>
       </div>
     </UserProvider>
   );
 }
+
 
 export default App;
